@@ -1,0 +1,82 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - cisco
+scope: source.example-cisco
+
+contexts:
+  # The prototype context is prepended to all contexts but those setting
+  # meta_include_prototype: false.
+  prototype:
+    - include: comments
+
+  main:
+    # The main context is the initial starting point of our syntax.
+    # Include other contexts from here (or specify them directly).
+    - include: keywords
+    - include: numbers
+    - include: strings
+
+  keywords:
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+    - match: '\b(no|deny|access-list|shutdown|password|username|secret|crypto|policy-map|route-map)\b'
+      scope: keyword.control.example-cisco
+
+    - match: '\b(trunk|interface|username|access|nat|static|permit|dynamic|target)\b'
+      scope: entity.name.example-cisco
+
+    - match: '\b(remark)\b'
+      scope: variable.function.example-cisco
+
+
+  numbers:
+    # ip tölur
+    - match: '\b(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\b'
+      scope: variable.parameter.example-cisco
+
+    #mac addressur samkvæmt standard
+    - match: '\b(^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$)\b'
+      scope: variable.parameter.example-cisco      
+
+    #mac addressur cisco
+    - match: '\b(^([0-9A-Fa-f]{4}[\.]){2}([0-9A-Fa-f]{4})$)\b'
+      scope: variable.parameter.example-cisco      
+
+
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.example-cisco
+
+    - match: '[0-9]*(\/[0-9])*'
+      scope: constant.numeric.example-cisco
+
+  strings:
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character.
+    - match: '("|description)'
+      scope: variable.function.example-cisco
+      push: inside_string
+
+  inside_string:
+    - meta_include_prototype: false
+    - meta_scope: entity.name.example-cisco
+    - match: '\.'
+      scope: constant.character.escape.example-cisco
+    - match: '("|^)'
+      scope: punctuation.definition.string.end.example-cisco
+      pop: true
+    
+
+  comments:
+    # Comments begin with a '//' and finish at the end of the line.
+    - match: '(!|#)'
+      scope: punctuation.definition.comment.example-cisco
+      push:
+        # This is an anonymous context push for brevity.
+        - meta_scope: comment.line.double-slash.example-cisco
+        - match: $\n?
+          pop: true
