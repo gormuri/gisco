@@ -1,6 +1,6 @@
 # gisco
 
-gisco is me own syntax higlighter for sublime text 3 
+gisco is my own syntax higlighter for sublime text 3 
 
 to install add gisco.sublime-syntax to
 C:\Users\%username%\AppData\Roaming\Sublime Text 3\Packages\User
