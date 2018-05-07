@@ -40,12 +40,17 @@ contexts:
       scope: variable.parameter.example-cisco
 
     #mac addressur samkvæmt standard
-    - match: '\b(^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$)\b'
+    - match: '\b(([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$)\b'
       scope: variable.parameter.example-cisco      
 
-    #mac addressur cisco
-    - match: '\b(^([0-9A-Fa-f]{4}[\.]){2}([0-9A-Fa-f]{4})$)\b'
+    #mac addressur cisco longer
+    - match: '\b(([0-9A-Fa-f]{4}[\.]){2}([0-9A-Fa-f]{4})([\.][0-9A-Fa-f]{2}))\b'
       scope: variable.parameter.example-cisco      
+      
+    #mac addressur cisco
+    - match: '\b(([0-9A-Fa-f]{4}[\.]){2}([0-9A-Fa-f]{4}))\b'
+      scope: variable.parameter.example-cisco      
+
 
 
     - match: '\b(-)?[0-9.]+\b'
